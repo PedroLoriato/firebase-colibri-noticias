@@ -1,5 +1,6 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:colibri_noticias/paginas/editar_noticia.dart';
+import 'package:colibri_noticias/servicos/gerenciador_login.dart';
 import 'package:colibri_noticias/servicos/gerenciador_noticia.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -205,7 +206,7 @@ class _CartaoNoticiaState extends State<CartaoNoticia> {
           const SizedBox(height: 4),
           GestureDetector(
             onLongPress: () {
-              _confirmarAcao(context);
+              GerenciadorLogin.isLogado() ? _confirmarAcao(context) : null;
             },
             onTap: () {
               _abrirURL(widget.link);
