@@ -8,6 +8,16 @@ String? validarCpf(String? value) {
   return null;
 }
 
+String? validarEmail(String? value) {
+  if (value == null || value.trim().isEmpty) {
+    return 'Email não pode estar vazio';
+  }
+  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+    return 'Formato de email inválido';
+  }
+  return null;
+}
+
 String? validarSenha(String? value) {
   if (value == null || value.trim().isEmpty) {
     return 'Senha não pode estar vazia';

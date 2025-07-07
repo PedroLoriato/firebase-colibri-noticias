@@ -2,7 +2,7 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:colibri_noticias/componentes/app_bar.dart';
 import 'package:colibri_noticias/componentes/campo_formulario.dart';
 import 'package:colibri_noticias/main.dart';
-import 'package:colibri_noticias/servicos/gerenciador_login.dart';
+import 'package:colibri_noticias/servicos/gerenciador_colaborador.dart';
 import 'package:colibri_noticias/utilitarios/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,17 +17,17 @@ class Acesso extends StatefulWidget {
 class _AcessoState extends State<Acesso> {
   final _formKey = GlobalKey<FormState>();
 
-  late TextEditingController cpfController;
+  late TextEditingController emailController;
   late TextEditingController senhaController;
-  late FocusNode cpfFocus;
+  late FocusNode emailFocus;
   late FocusNode senhaFocus;
 
   @override
   void initState() {
     super.initState();
-    cpfController = TextEditingController();
+    emailController = TextEditingController();
     senhaController = TextEditingController();
-    cpfFocus = FocusNode();
+    emailFocus = FocusNode();
     senhaFocus = FocusNode();
   }
 
@@ -76,19 +76,19 @@ class _AcessoState extends State<Acesso> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CampoFormulario(
-                            controller: cpfController,
-                            focusNode: cpfFocus,
-                            label: "CPF",
-                            placeholder: "XXX.XXX.XXX-XX",
+                            controller: emailController,
+                            focusNode: emailFocus,
+                            label: "Email",
+                            placeholder: "seuemail@dominio",
                             prefixIcon: Icon(
                               Icons.account_box,
                               color: Colors.grey,
                               size: 24,
                             ),
-                            validator: validarCpf,
+                            validator: validarEmail,
                             inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              CpfInputFormatter(),
+                              FilteringTextInputFormatter.allow(RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')),
+                              FilteringTextInputFormatter.deny(RegExp(r'\s')),
                             ],
                           ),
                           CampoFormulario(
@@ -111,10 +111,9 @@ class _AcessoState extends State<Acesso> {
                               if (_formKey.currentState != null &&
                                   _formKey.currentState!.validate()) {
                                 try {
-                                  await GerenciadorLogin.login(
-                                    cpfController.text,
-                                    senhaController.text,
-                                    listaColaboradores,
+                                  await GerenciadorColaborador.login(
+                                    emailController.text,
+                                    senhaController.text
                                   );
                                   if (context.mounted) {
                                     Navigator.pushReplacement(
@@ -134,7 +133,7 @@ class _AcessoState extends State<Acesso> {
                                     );
                                   }
                                   setState(() {
-                                    cpfController.clear();
+                                    emailController.clear();
                                     senhaController.clear();
                                   });
                                 } on FormatException catch (error) {
@@ -205,10 +204,10 @@ class _AcessoState extends State<Acesso> {
 
   @override
   void dispose() {
-    cpfController.dispose();
+    emailController.dispose();
     senhaController.dispose();
 
-    cpfFocus.dispose();
+    emailFocus.dispose();
     senhaFocus.dispose();
 
     super.dispose();

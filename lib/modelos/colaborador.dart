@@ -1,50 +1,45 @@
-import 'dart:convert';
+// modelos/colaborador.dart
 
 class Colaborador {
-  String imagem;
-  String nome;
-  String sobrenome;
-  String cpf;
-  String senha;
+  final String? id; // UID do Firebase Auth, que é o ID do documento
+  final String avatar;
+  final String nome;
+  final String sobrenome;
+  final String cpf;
+  final String email; // Essencial para o login com Firebase Auth
 
   Colaborador({
-    required this.imagem,
+    this.id,
+    required this.avatar,
     required this.nome,
     required this.sobrenome,
     required this.cpf,
-    required this.senha,
+    required this.email,
   });
 
-  String nomeCompleto() {
-    return '$nome $sobrenome';
-  }
+  String nomeCompleto() => '$nome $sobrenome';
+  String primeiroNome() => nome.split(' ')[0];
 
-  String primeiroNome() {
-    return nome.split(' ')[0];
-  }
-
+  // O toMap não precisa incluir o id, pois ele é o nome do documento
   Map<String, dynamic> toMap() {
     return {
-      "imagem": imagem,
+      "avatar": avatar,
       "nome": nome,
       "sobrenome": sobrenome,
       "cpf": cpf,
-      "senha": senha,
+      "email": email,
     };
   }
 
-  // Método para converter o objeto em uma string JSON
-  String toJson() {
-    return jsonEncode(toMap());
-  }
-
-  factory Colaborador.fromMap(Map<String, dynamic> map) {
+  // O fromMap agora recebe o ID do documento
+  factory Colaborador.fromMap(Map<String, dynamic> map, String documentId) {
     return Colaborador(
-      imagem: map['imagem'],
-      nome: map['nome'],
-      sobrenome: map['sobrenome'],
-      cpf: map['cpf'],
-      senha: map['senha'],
+      id: documentId,
+      avatar: map['avatar'] ?? '',
+      nome: map['nome'] ?? '',
+      sobrenome: map['sobrenome'] ?? '',
+      cpf: map['cpf'] ?? '',
+      email: map['email'] ?? '', 
     );
   }
 }

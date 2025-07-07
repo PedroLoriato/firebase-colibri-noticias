@@ -1,5 +1,5 @@
 import 'package:colibri_noticias/paginas/inicio.dart';
-import 'package:colibri_noticias/servicos/gerenciador_login.dart';
+import 'package:colibri_noticias/servicos/gerenciador_colaborador.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -28,11 +28,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
         Padding(
           padding: const EdgeInsets.only(right: 20.0), // Padding para ações
           child:
-              GerenciadorLogin.isLogado()
+              GerenciadorColaborador.isLogado()
                   ? CircleAvatar(
                     radius: 20,
                     backgroundImage: AssetImage(
-                      GerenciadorLogin.colaboradorLogado!.imagem,
+                      GerenciadorColaborador.colaboradorLogado!.avatar,
                     ),
                     child: PopupMenuButton<String>(
                       onSelected: (String value) {
@@ -52,7 +52,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             ),
                           );
                           setState(() {
-                            GerenciadorLogin.logout();
+                            GerenciadorColaborador.logout();
                           });
                         }
                       },

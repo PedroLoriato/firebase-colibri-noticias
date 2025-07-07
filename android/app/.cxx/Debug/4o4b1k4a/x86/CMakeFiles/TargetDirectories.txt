@@ -1,0 +1,2 @@
+D:/TSI 02-2024/Desenvolvimento Mobile/colibri_noticias/android/app/.cxx/Debug/4o4b1k4a/x86/CMakeFiles/edit_cache.dir
+D:/TSI 02-2024/Desenvolvimento Mobile/colibri_noticias/android/app/.cxx/Debug/4o4b1k4a/x86/CMakeFiles/rebuild_cache.dir

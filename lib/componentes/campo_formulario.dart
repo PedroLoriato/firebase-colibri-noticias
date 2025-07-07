@@ -127,7 +127,7 @@ class _CampoFormularioState extends State<CampoFormulario> {
                 const Divider(),
                 ListTile(
                   leading: Icon(Icons.add, color: Colors.blue),
-                  title: Text('Adicionar novo'),
+                  title: Text('Adicionar nova'),
                   onTap: () async {
                     Navigator.pop(context);
                     await _showAddNewDialog();

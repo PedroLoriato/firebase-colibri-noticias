@@ -1,8 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:colibri_noticias/modelos/colaborador.dart';
 import 'package:colibri_noticias/paginas/acesso.dart';
 import 'package:colibri_noticias/paginas/inicio.dart';
 import 'package:colibri_noticias/servicos/gerenciador_inicio.dart';
-import 'package:colibri_noticias/servicos/gerenciador_login.dart';
+import 'package:colibri_noticias/servicos/gerenciador_colaborador.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -10,26 +12,11 @@ import 'package:colibri_noticias/paginas/noticias.dart';
 import 'package:colibri_noticias/paginas/sobre.dart';
 import 'package:colibri_noticias/componentes/barra_navegacao.dart';
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 
-List<Colaborador> listaColaboradores = [
-  Colaborador(
-    imagem: 'assets/imagens/pedro-avatar.jpg',
-    nome: 'Pedro Henrique',
-    sobrenome: 'Loriato',
-    cpf: '123.456.789-00',
-    senha: 'senha123',
-  ),
-  Colaborador(
-    imagem: 'assets/imagens/katiane-avatar.jpg',
-    nome: 'Katiane',
-    sobrenome: 'Maciel do Nascimento',
-    cpf: '123.456.789-01',
-    senha: 'senha234',
-  ),
-];
-
-void main() {
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   tz.initializeTimeZones();
   runApp(const ColibriNoticias());
 }
@@ -107,9 +94,9 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
         );
       }
     } else if (opcao == 'colaborador') {
-      await GerenciadorLogin.verificarSessao();
+      await GerenciadorColaborador.verificarSessao();
       // Se a opção for colaborador, verifica se está logado
-      if (!GerenciadorLogin.isLogado()) {
+      if (!GerenciadorColaborador.isLogado()) {
         if (mounted) {
           Navigator.pushReplacement(
             context,

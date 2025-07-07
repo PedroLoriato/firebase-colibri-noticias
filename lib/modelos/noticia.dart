@@ -1,59 +1,61 @@
-import 'package:flutter/foundation.dart';
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
+import 'package:colibri_noticias/modelos/colaborador.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Noticia {
-  String? id;
-  final Uri imagem;
+  final String? id;
+  final Uri imagemUrl;
   final String fonte;
   final String titulo;
   final String resumo;
-  final Uri link;
+  final Uri linkUrl;
   final DateTime dataHoraPublicacao;
-  final String colaborador;
+  final Colaborador colaborador; // Armazena o nome completo do colaborador
   final DateTime dataHoraAdicao;
   final String categoria;
 
   Noticia({
-    required this.imagem,
+    this.id,
+    required this.imagemUrl,
     required this.fonte,
     required this.titulo,
     required this.resumo,
-    required this.link,
+    required this.linkUrl,
     required this.colaborador,
     required this.dataHoraPublicacao,
     required this.categoria,
     DateTime? dataHoraAdicao,
-    this.id,
   }) : dataHoraAdicao = dataHoraAdicao ?? DateTime.now();
 
+  /// Converte o objeto Noticia para um Map, pronto para ser salvo no Firestore.
   Map<String, dynamic> toMap() {
     return {
-      "imagem": imagem.toString(),
-      "fonte": fonte,
-      "titulo": titulo,
-      "resumo": resumo,
-      "link": link.toString(),
-      "dataHoraPublicacao": dataHoraPublicacao.toIso8601String(),
-      "colaborador": colaborador,
-      "categoria": categoria,
+      'imagemUrl': imagemUrl,
+      'fonte': fonte,
+      'titulo': titulo,
+      'resumo': resumo,
+      'linkUrl': linkUrl,
+      'colaborador': colaborador.toMap(),
+      'categoria': categoria,
+      // Converte DateTime para o tipo Timestamp, que é o correto para o Firestore
+      'dataHoraPublicacao': Timestamp.fromDate(dataHoraPublicacao),
+      'dataHoraAdicao': Timestamp.fromDate(dataHoraAdicao),
     };
   }
 
-  factory Noticia.fromMap(Map<String, dynamic> map) {
-    final saoPaulo = tz.getLocation('America/Sao_Paulo');
-
+  /// Cria um objeto Noticia a partir de um Map vindo do Firestore.
+  factory Noticia.fromMap(Map<String, dynamic> map, String documentId) {
     return Noticia(
-      id: map['id'],
-      imagem: Uri.parse(map['imagem']),
-      fonte: map['fonte'],
-      titulo: map['titulo'],
-      resumo: map['resumo'],
-      link: Uri.parse(map['link']),
-      dataHoraPublicacao: tz.TZDateTime.from(DateTime.parse(map['dataHoraPublicacao']), saoPaulo),
-      dataHoraAdicao: tz.TZDateTime.from(DateTime.parse(map['dataHoraAdicao']), saoPaulo),
-      colaborador: map['colaborador'],
-      categoria: map['categoria'],
+      id: documentId,
+      imagemUrl: map['imagemUrl'] ?? '',
+      fonte: map['fonte'] ?? '',
+      titulo: map['titulo'] ?? '',
+      resumo: map['resumo'] ?? '',
+      linkUrl: map['linkUrl'] ?? '',
+      colaborador: map['colaborador'] ?? '',
+      categoria: map['categoria'] ?? '',
+      // Converte o Timestamp do Firestore de volta para DateTime
+      dataHoraPublicacao: (map['dataHoraPublicacao'] as Timestamp).toDate(),
+      dataHoraAdicao: (map['dataHoraAdicao'] as Timestamp).toDate(),
     );
   }
 }

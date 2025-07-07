@@ -1,70 +1,62 @@
-import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colibri_noticias/modelos/categoria.dart';
-import 'package:http/http.dart' as http;
 
 class GerenciadorCategoria {
-  static const String apiUrl = 'http://127.0.0.1:8000/api';
-  static const String token = 'Token 87d00cee9a19159a18e57c9f75b0b76c4252120b';
+  // Instância do Firestore e referência para a coleção 'categorias'
+  static final FirebaseFirestore _db = FirebaseFirestore.instance;
+  static final CollectionReference _colecaoCategorias = _db.collection('categorias');
 
-  // Método para adicionar uma categoria
+  /// Adiciona uma nova categoria ao Firestore.
   static Future<void> adicionarCategoria(Categoria categoria) async {
-    final response = await http.post(
-      Uri.parse('$apiUrl/categorias/'),
-      headers: {
-        'Content-Type': 'application/json', 
-        'Authorization': token
-      },
-      body: jsonEncode(categoria.toMap()),
-    );
-
-    if (response.statusCode == 201) {
-      throw Exception('SUCESSO');
+    try {
+      // Converte o objeto Categoria para um Map e o adiciona à coleção.
+      // O Firestore gera um ID de documento automaticamente.
+      await _colecaoCategorias.add(categoria.toMap());
+      print('Categoria adicionada com sucesso!');
+    } catch (e) {
+      print('Erro ao adicionar categoria: $e');
+      throw Exception('ERRO_AO_ADICIONAR');
     }
-    if (response.statusCode == 500) {
-      throw Exception('ERRO_SERVIDOR');
-    }
-    throw Exception('ERRO_DESCONHECIDO');
   }
 
-  // Método para carregar as categorias
-  static Future<List<Categoria>> carregarCategorias() async {
-    final response = await http.get(
-      Uri.parse('$apiUrl/categorias/'),
-      headers: {'Content-Type': 'application/json', 'Authorization': token},
-    );
+  /// Carrega todas as categorias do Firestore.
+  static Future<List<Categoria>> carregarCategorias() async { 
+    try {
+      // Pega um "snapshot" (uma foto instantânea) da coleção.
+      final snapshot = await _colecaoCategorias.get();
 
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.map((item) => Categoria.fromMap(item)).toList();
+      // Mapeia cada documento do snapshot para um objeto Categoria.
+      return snapshot.docs.map((doc) {
+        // doc.data() retorna um Map<String, dynamic>
+        return Categoria.fromMap(doc.data() as Map<String, dynamic>, doc.id);
+      }).toList();
+    } catch (e) {
+      print('Erro ao carregar categorias: $e');
+      throw Exception('ERRO_AO_CARREGAR');
     }
-    if (response.statusCode == 500) {
-      throw Exception('ERRO_SERVIDOR');
-    }
-    throw Exception('ERRO_DESCONHECIDO');
   }
 
+  /// Carrega apenas os nomes de todas as categorias.
   static Future<List<String>> carregarNomesCategorias() async {
-    return carregarCategorias().then((categorias) {
-      return categorias.map((categoria) => categoria.nome).toList();
-    });
+    final categorias = await carregarCategorias();
+    return categorias.map((categoria) => categoria.nome).toList();
   }
 
-  static Future<bool> temCategoria(String categoria) async {
-    final response = await http.get(
-      Uri.parse('$apiUrl/categorias/?search=$categoria'),
-      headers: {
-        'Content-Type': 'application/json', 
-        'Authorization': token
-      },
-    );
+  /// Verifica se uma categoria com um nome específico já existe.
+  static Future<bool> temCategoria(String nomeCategoria) async {
+    try {
+      // Cria uma consulta para buscar por nome.
+      // O limit(1) otimiza a busca, parando assim que encontrar um resultado.
+      final snapshot = await _colecaoCategorias
+          .where('nome', isEqualTo: nomeCategoria)
+          .limit(1)
+          .get();
 
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.isNotEmpty;
+      // Se a lista de documentos não estiver vazia, a categoria existe.
+      return snapshot.docs.isNotEmpty;
+    } catch (e) {
+      print('Erro ao verificar categoria: $e');
+      throw Exception('ERRO_AO_VERIFICAR');
     }
-    if (response.statusCode == 500) {
-      throw Exception('ERRO_SERVIDOR');
-    }
-    throw Exception('ERRO_DESCONHECIDO');
   }
 }

@@ -4,7 +4,7 @@ import 'package:colibri_noticias/componentes/app_bar.dart';
 import 'package:colibri_noticias/componentes/cartao_noticia.dart';
 import 'package:colibri_noticias/modelos/noticia.dart';
 import 'package:colibri_noticias/modelos/categoria.dart';
-import 'package:colibri_noticias/servicos/gerenciador_login.dart';
+import 'package:colibri_noticias/servicos/gerenciador_colaborador.dart';
 import 'package:colibri_noticias/servicos/gerenciador_noticia.dart';
 import 'cadastrar_noticia.dart';
 
@@ -134,7 +134,7 @@ class _NoticiasState extends State<Noticias> {
                     return ListView.builder(
                       padding: EdgeInsets.only(
                         bottom:
-                            GerenciadorLogin.isLogado()
+                            GerenciadorColaborador.isLogado()
                                 ? kBottomNavigationBarHeight + 70
                                 : kBottomNavigationBarHeight,
                       ),
@@ -143,13 +143,13 @@ class _NoticiasState extends State<Noticias> {
                         final noticia = noticiasExibidas[index];
                         return CartaoNoticia(
                           id: noticia.id!,
-                          imagem: noticia.imagem,
+                          imagem: noticia.imagemUrl,
                           fonte: noticia.fonte,
                           titulo: noticia.titulo,
                           resumo: noticia.resumo,
-                          link: noticia.link,
+                          link: noticia.linkUrl,
                           dataHoraPublicacao: noticia.dataHoraPublicacao,
-                          nomeColaborador: noticia.colaborador,
+                          nomeColaborador: noticia.colaborador.primeiroNome(),
                           dataHoraAdicao: noticia.dataHoraAdicao,
                           categoria: noticia.categoria,
                           noticiasAtualizadas: _carregarNoticias,
@@ -164,7 +164,7 @@ class _NoticiasState extends State<Noticias> {
         ),
       ),
       floatingActionButton:
-          GerenciadorLogin.isLogado()
+          GerenciadorColaborador.isLogado()
               ? Padding(
                 padding: const EdgeInsets.only(bottom: 60),
                 child: FloatingActionButton(

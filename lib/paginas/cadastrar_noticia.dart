@@ -4,7 +4,7 @@ import 'package:colibri_noticias/componentes/campo_formulario.dart';
 import 'package:colibri_noticias/modelos/categoria.dart';
 import 'package:colibri_noticias/modelos/noticia.dart';
 import 'package:colibri_noticias/servicos/gerenciador_categorias.dart';
-import 'package:colibri_noticias/servicos/gerenciador_login.dart';
+import 'package:colibri_noticias/servicos/gerenciador_colaborador.dart';
 import 'package:colibri_noticias/servicos/gerenciador_noticia.dart';
 import 'package:colibri_noticias/utilitarios/validadores.dart';
 import 'package:flutter/material.dart';
@@ -232,16 +232,16 @@ class _CadastroNoticiasState extends State<CadastroNoticias> {
 
     try {
       Noticia novaNoticia = Noticia(
-        imagem: Uri.parse(imagemController.text),
+        imagemUrl: Uri.parse(imagemController.text),
         fonte: fonteController.text,
-        link: Uri.parse(linkController.text),
+        linkUrl: Uri.parse(linkController.text),
         titulo: tituloController.text,
         resumo: resumoController.text,
         dataHoraPublicacao: UtilData.obterDateTimeHora(
           dataHoraPublicacaoController.text,
         ),
         categoria: categoriaController.text,
-        colaborador: GerenciadorLogin.colaboradorLogado!.nomeCompleto(),
+        colaborador: GerenciadorColaborador.colaboradorLogado!,
       );
 
       if (await GerenciadorCategoria.temCategoria(categoriaController.text) ==

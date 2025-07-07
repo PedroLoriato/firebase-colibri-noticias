@@ -1,122 +1,91 @@
-import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colibri_noticias/modelos/noticia.dart';
-import 'package:http/http.dart' as http;
 
 class GerenciadorNoticia {
-  static const String apiUrl = 'http://127.0.0.1:8000/api';
-  static const String token = 'Token 87d00cee9a19159a18e57c9f75b0b76c4252120b';
+  // Instância do Firestore e referência para a coleção 'noticias'
+  static final FirebaseFirestore _db = FirebaseFirestore.instance;
+  static final CollectionReference _colecaoNoticias = _db.collection('noticias');
 
-  // Método para adicionar uma notícia
+  /// Adiciona uma nova notícia ao Firestore.
   static Future<void> adicionarNoticia(Noticia noticia) async {
-    final response = await http.post(
-      Uri.parse('$apiUrl/noticias/'),
-      headers: {
-        'Content-Type': 'application/json', 
-        'Authorization': token
-      },
-      body: jsonEncode(noticia.toMap()),
-    );
-
-    if (response.statusCode == 500) {
-      throw Exception('ERRO_SERVIDOR');
-    }
-    if (response.statusCode == 400) {
-      throw Exception('ERRO_REQUISICAO');
-    }
-    if (response.statusCode != 201) {
-      throw Exception('ERRO_DESCONHECIDO');
+    try {
+      await _colecaoNoticias.add(noticia.toMap());
+    } catch (e) {
+      print('Erro ao adicionar notícia: $e');
+      throw Exception('ERRO_AO_ADICIONAR_NOTICIA');
     }
   }
 
-  // Método para carregar as notícias
+  /// Carrega todas as notícias do Firestore, ordenadas pela mais recente.
   static Future<List<Noticia>> carregarNoticias() async {
-    final response = await http.get(
-      Uri.parse('$apiUrl/noticias/?ordering=-dataHoraAdicao'),
-      headers: {'Content-Type': 'application/json', 'Authorization': token},
-    );
-
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.map((item) => Noticia.fromMap(item)).toList();
+    try {
+      final snapshot = await _colecaoNoticias
+          .orderBy('dataHoraAdicao', descending: true)
+          .get();
+      
+      return snapshot.docs.map((doc) => 
+        Noticia.fromMap(doc.data() as Map<String, dynamic>, doc.id)
+      ).toList();
+    } catch (e) {
+      print('Erro ao carregar notícias: $e');
+      throw Exception('ERRO_AO_CARREGAR_NOTICIAS');
     }
-    if (response.statusCode == 500) {
-      throw Exception('ERRO_SERVIDOR');
-    }
-    throw Exception('ERRO_DESCONHECIDO');
   }
 
-  // Método para filtrar as notícias por categoria
-  static Future<List<Noticia>> filtrarNoticiasPorCategoria(
-    String categoria,
-  ) async {
-    final response = await http.get(
-      Uri.parse('$apiUrl/noticias/?categoria=$categoria&ordering=-dataHoraAdicao'),
-      headers: {'Content-Type': 'application/json', 'Authorization': token},
-    );
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.map((item) => Noticia.fromMap(item)).toList();
+  /// Filtra as notícias por uma categoria específica, ordenadas pela mais recente.
+  static Future<List<Noticia>> filtrarNoticiasPorCategoria(String categoria) async {
+    try {
+      final snapshot = await _colecaoNoticias
+          .where('categoria', isEqualTo: categoria)
+          .orderBy('dataHoraAdicao', descending: true)
+          .get();
+      
+      return snapshot.docs.map((doc) => 
+        Noticia.fromMap(doc.data() as Map<String, dynamic>, doc.id)
+      ).toList();
+    } catch (e) {
+      print('Erro ao filtrar notícias: $e');
+      throw Exception('ERRO_AO_FILTRAR_NOTICIAS');
     }
-
-    if (response.statusCode == 500) {
-      throw Exception('ERRO_SERVIDOR');
-    }
-    throw Exception('ERRO_DESCONHECIDO');
   }
 
-  // Método para contagem de notícias de um colaborador
-  static Future<int> contarNoticiasPorColaborador(String colaborador) async {
-    final response = await http.get(
-      Uri.parse('$apiUrl/noticias/count/?colaborador=$colaborador'),
-      headers: {'Content-Type': 'application/json', 'Authorization': token},
-    );
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(response.body);
-      return data['count'];
+  /// Conta quantas notícias um colaborador específico publicou.
+  static Future<int> contarNoticiasPorColaborador(String nomeColaborador) async {
+    try {
+      // O método count() é mais eficiente pois não baixa os documentos.
+      final aggregateQuery = _colecaoNoticias
+          .where('colaborador', isEqualTo: nomeColaborador)
+          .count();
+          
+      final snapshot = await aggregateQuery.get();
+      return snapshot.count ?? 0;
+    } catch (e) {
+      print('Erro ao contar notícias do colaborador: $e');
+      throw Exception('ERRO_AO_CONTAR_NOTICIAS');
     }
-    if (response.statusCode == 500) {
-      throw Exception('ERRO_SERVIDOR');
-    }
-    throw Exception('ERRO_DESCONHECIDO');
   }
 
-  // Método para editar uma notícia
+  /// Edita uma notícia existente no Firestore.
   static Future<void> editarNoticia(Noticia noticia) async {
-    final response = await http.put(
-      Uri.parse('$apiUrl/noticias/${noticia.id}/'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': token
-      },
-      body: jsonEncode(noticia.toMap()),
-    );
-
-    if (response.statusCode == 200) {
-      return;
+    // Garante que a notícia tenha um ID para ser editada.
+    if (noticia.id == null || noticia.id!.isEmpty) {
+      throw Exception('ID da notícia inválido para edição.');
     }
-    if (response.statusCode == 400) {
-      throw Exception('ERRO_REQUISICAO');
+    try {
+      await _colecaoNoticias.doc(noticia.id).update(noticia.toMap());
+    } catch (e) {
+      print('Erro ao editar notícia: $e');
+      throw Exception('ERRO_AO_EDITAR_NOTICIA');
     }
-    if (response.statusCode == 500) {
-      throw Exception('ERRO_SERVIDOR');
-    }
-    throw Exception('ERRO_DESCONHECIDO');
   }
 
-  //Método para deletar uma notícia
+  /// Deleta uma notícia do Firestore usando seu ID.
   static Future<void> deletarNoticia(String id) async {
-    final response = await http.delete(
-      Uri.parse('$apiUrl/noticias/$id/'),
-      headers: {'Content-Type': 'application/json', 'Authorization': token},
-    );
-
-    if (response.statusCode == 204) {
-      return;
+    try {
+      await _colecaoNoticias.doc(id).delete();
+    } catch (e) {
+      print('Erro ao deletar notícia: $e');
+      throw Exception('ERRO_AO_DELETAR_NOTICIA');
     }
-    if (response.statusCode == 500) {
-      throw Exception('ERRO_SERVIDOR');
-    }
-    throw Exception('ERRO_DESCONHECIDO');
   }
 }
