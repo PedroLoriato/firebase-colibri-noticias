@@ -62,7 +62,6 @@ class _SobreState extends State<Sobre> {
         });
       }
     } catch (e) {
-      print("Erro ao carregar dados da tela Sobre: $e");
       if (mounted) {
         setState(() {
           _carregando = false;
@@ -174,15 +173,68 @@ class _SobreState extends State<Sobre> {
                           );
                         }).toList(),
                   ),
-
               const SizedBox(height: 20),
-              // O resto da sua UI estática continua aqui...
+
               const Text(
                 "Faça Parte desse Projeto!",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              // ... (Texto e botão do WhatsApp)
+              const Text(
+                "Ajude a manter a população de Santa Teresa sempre bem informada! Nosso aplicativo reúne todas as notícias da região em um só lugar, centralizando as principais fontes de informação para que ninguém fique de fora dos acontecimentos. Seja um colaborador e contribua para levar informação de qualidade à nossa comunidade!",
+                textAlign: TextAlign.justify,
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: Text(
+                  "Entre em contato conosco pelo nosso WhatsApp!",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                    fixedSize: const Size(150, 50),
+                  ),
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          "Essa funcionalidade estará disponível em breve!",
+                        ),
+                        backgroundColor: Colors.green,
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(
+                        FontAwesomeIcons.whatsapp,
+                        size: 24,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        "WhatsApp",
+                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
             ],
           ),
         ),

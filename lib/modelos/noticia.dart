@@ -1,59 +1,69 @@
 import 'package:colibri_noticias/modelos/colaborador.dart';
+import 'package:colibri_noticias/modelos/categoria.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:colibri_noticias/servicos/gerenciador_categoria.dart';
+import 'package:colibri_noticias/servicos/gerenciador_colaborador.dart';
 
 class Noticia {
   final String? id;
-  final Uri imagemUrl;
+  final Uri imagem;
   final String fonte;
   final String titulo;
   final String resumo;
-  final Uri linkUrl;
+  final Uri link;
   final DateTime dataHoraPublicacao;
-  final Colaborador colaborador; // Armazena o nome completo do colaborador
+  final Colaborador colaborador; 
   final DateTime dataHoraAdicao;
-  final String categoria;
+  final Categoria categoria; 
 
   Noticia({
     this.id,
-    required this.imagemUrl,
+    required this.imagem,
     required this.fonte,
     required this.titulo,
     required this.resumo,
-    required this.linkUrl,
+    required this.link,
     required this.colaborador,
     required this.dataHoraPublicacao,
     required this.categoria,
     DateTime? dataHoraAdicao,
   }) : dataHoraAdicao = dataHoraAdicao ?? DateTime.now();
 
-  /// Converte o objeto Noticia para um Map, pronto para ser salvo no Firestore.
   Map<String, dynamic> toMap() {
+    final firestore = FirebaseFirestore.instance;
+
     return {
-      'imagemUrl': imagemUrl,
+      'imagem': imagem.toString(),
       'fonte': fonte,
       'titulo': titulo,
       'resumo': resumo,
-      'linkUrl': linkUrl,
-      'colaborador': colaborador.toMap(),
-      'categoria': categoria,
-      // Converte DateTime para o tipo Timestamp, que é o correto para o Firestore
+      'link': link.toString(),
+      'categoria': firestore.collection('categorias').doc(categoria.id),
       'dataHoraPublicacao': Timestamp.fromDate(dataHoraPublicacao),
-      'dataHoraAdicao': Timestamp.fromDate(dataHoraAdicao),
     };
   }
 
-  /// Cria um objeto Noticia a partir de um Map vindo do Firestore.
-  factory Noticia.fromMap(Map<String, dynamic> map, String documentId) {
+  static Future<Noticia> fromMap(Map<String, dynamic> map, String documentId) async {
+    final DocumentReference colaboradorRef = map['colaborador'];
+    final DocumentReference categoriaRef = map['categoria'];
+
+    final results = await Future.wait([
+      GerenciadorColaborador.carregarColaboradorPorReferencia(colaboradorRef),
+      GerenciadorCategoria.carregarCategoriaPorReferencia(categoriaRef),
+    ]);
+
+    final Colaborador colaborador = results[0] as Colaborador;
+    final Categoria categoria = results[1] as Categoria;
+
     return Noticia(
       id: documentId,
-      imagemUrl: map['imagemUrl'] ?? '',
-      fonte: map['fonte'] ?? '',
-      titulo: map['titulo'] ?? '',
-      resumo: map['resumo'] ?? '',
-      linkUrl: map['linkUrl'] ?? '',
-      colaborador: map['colaborador'] ?? '',
-      categoria: map['categoria'] ?? '',
-      // Converte o Timestamp do Firestore de volta para DateTime
+      imagem: Uri.parse(map['imagem']),
+      fonte: map['fonte'],
+      titulo: map['titulo'],
+      resumo: map['resumo'],
+      link: Uri.parse(map['link']),
+      colaborador: colaborador,
+      categoria: categoria,      
       dataHoraPublicacao: (map['dataHoraPublicacao'] as Timestamp).toDate(),
       dataHoraAdicao: (map['dataHoraAdicao'] as Timestamp).toDate(),
     );

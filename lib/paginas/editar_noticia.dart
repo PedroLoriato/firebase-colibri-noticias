@@ -4,7 +4,7 @@ import 'package:colibri_noticias/componentes/campo_formulario.dart';
 import 'package:colibri_noticias/componentes/cartao_noticia.dart';
 import 'package:colibri_noticias/modelos/categoria.dart';
 import 'package:colibri_noticias/modelos/noticia.dart';
-import 'package:colibri_noticias/servicos/gerenciador_categorias.dart';
+import 'package:colibri_noticias/servicos/gerenciador_categoria.dart';
 import 'package:colibri_noticias/servicos/gerenciador_colaborador.dart';
 import 'package:colibri_noticias/servicos/gerenciador_noticia.dart';
 import 'package:colibri_noticias/utilitarios/validadores.dart';
@@ -246,36 +246,35 @@ class _EditarNoticiasState extends State<EditarNoticias> {
       _carregando = true;
     });
 
-    final noticiaEditada = Noticia(
-      id: widget.noticia.id,
-      imagemUrl: Uri.parse(imagemController.text),
-      fonte: fonteController.text,
-      linkUrl: Uri.parse(linkController.text),
-      titulo: tituloController.text,
-      resumo: resumoController.text,
-      dataHoraPublicacao: UtilData.obterDateTimeHora(
-        dataHoraPublicacaoController.text,
-      ),
-      categoria: categoriaController.text,
-      colaborador: GerenciadorColaborador.colaboradorLogado!,
-    );
-
     try {
-      if (await GerenciadorCategoria.temCategoria(categoriaController.text) ==
-          false) {
-        await GerenciadorCategoria.adicionarCategoria(
-          Categoria(nome: categoriaController.text),
-        );
-      }
+      Categoria categoria =
+          await GerenciadorCategoria.temCategoria(categoriaController.text) ??
+          await GerenciadorCategoria.adicionarCategoria(
+            Categoria(nome: categoriaController.text),
+          );
 
+      final noticiaEditada = Noticia(
+        id: widget.noticia.id,
+        imagem: Uri.parse(imagemController.text),
+        fonte: fonteController.text,
+        link: Uri.parse(linkController.text),
+        titulo: tituloController.text,
+        resumo: resumoController.text,
+        dataHoraPublicacao: UtilData.obterDateTimeHora(
+          dataHoraPublicacaoController.text,
+        ),
+        dataHoraAdicao: widget.noticia.dataHoraAdicao,
+        categoria: categoria,
+        colaborador: GerenciadorColaborador.colaboradorLogado!,
+      );
       await GerenciadorNoticia.editarNoticia(noticiaEditada);
 
-      if (context.mounted) {
-        Navigator.pop(context, true); // Volta para tela anterior
+      if (mounted) {
+        Navigator.pop(context, true); 
         _mostrarSnackBar("Notícia atualizada com sucesso!", Colors.green);
       }
     } catch (e) {
-      if (context.mounted) {
+      if (mounted) {
         Navigator.pop(context);
         _mostrarSnackBar("Erro ao editar notícia: $e", Colors.red);
       }

@@ -1,4 +1,4 @@
-import 'package:colibri_noticias/servicos/gerenciador_categorias.dart';
+import 'package:colibri_noticias/servicos/gerenciador_categoria.dart';
 import 'package:flutter/material.dart';
 import 'package:colibri_noticias/componentes/app_bar.dart';
 import 'package:colibri_noticias/componentes/cartao_noticia.dart';
@@ -29,13 +29,17 @@ class _NoticiasState extends State<Noticias> {
   Future<void> carregarCategorias() async {
     final List<Categoria> categoriasCarregadas =
         await GerenciadorCategoria.carregarCategorias();
-    setState(() {
-      categorias = [Categoria(nome: 'Todos'), ...categoriasCarregadas];
-    });
+    if (mounted) { 
+      setState(() {
+        categorias = [Categoria(nome: 'Todos'), ...categoriasCarregadas];
+      });
+    }
   }
 
   Future<void> _carregarNoticias() async {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -143,15 +147,15 @@ class _NoticiasState extends State<Noticias> {
                         final noticia = noticiasExibidas[index];
                         return CartaoNoticia(
                           id: noticia.id!,
-                          imagem: noticia.imagemUrl,
+                          imagem: noticia.imagem,
                           fonte: noticia.fonte,
                           titulo: noticia.titulo,
                           resumo: noticia.resumo,
-                          link: noticia.linkUrl,
+                          link: noticia.link,
                           dataHoraPublicacao: noticia.dataHoraPublicacao,
                           nomeColaborador: noticia.colaborador.primeiroNome(),
                           dataHoraAdicao: noticia.dataHoraAdicao,
-                          categoria: noticia.categoria,
+                          categoria: noticia.categoria.nome,
                           noticiasAtualizadas: _carregarNoticias,
                         );
                       },

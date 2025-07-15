@@ -42,14 +42,7 @@ class CartaoNoticia extends StatefulWidget {
 class _CartaoNoticiaState extends State<CartaoNoticia> {
   String tempoAdicao() {
     final now = DateTime.now();
-    if (kDebugMode) {
-      print(now);
-      print(widget.dataHoraAdicao);
-    }
     final difference = now.difference(widget.dataHoraAdicao);
-    if (kDebugMode) {
-      print(difference);
-    }
     if (UtilData.obterDataDDMMAAAA(now) ==
         UtilData.obterDataDDMMAAAA(widget.dataHoraAdicao)) {
       return 'Hoje';

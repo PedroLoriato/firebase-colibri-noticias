@@ -3,7 +3,7 @@ import 'package:colibri_noticias/componentes/app_bar.dart';
 import 'package:colibri_noticias/componentes/campo_formulario.dart';
 import 'package:colibri_noticias/modelos/categoria.dart';
 import 'package:colibri_noticias/modelos/noticia.dart';
-import 'package:colibri_noticias/servicos/gerenciador_categorias.dart';
+import 'package:colibri_noticias/servicos/gerenciador_categoria.dart';
 import 'package:colibri_noticias/servicos/gerenciador_colaborador.dart';
 import 'package:colibri_noticias/servicos/gerenciador_noticia.dart';
 import 'package:colibri_noticias/utilitarios/validadores.dart';
@@ -231,29 +231,24 @@ class _CadastroNoticiasState extends State<CadastroNoticias> {
     });
 
     try {
+      Categoria categoria = await GerenciadorCategoria.temCategoria(categoriaController.text) ?? await GerenciadorCategoria.adicionarCategoria(
+        Categoria(nome: categoriaController.text),
+      );
+
       Noticia novaNoticia = Noticia(
-        imagemUrl: Uri.parse(imagemController.text),
+        imagem: Uri.parse(imagemController.text),
         fonte: fonteController.text,
-        linkUrl: Uri.parse(linkController.text),
+        link: Uri.parse(linkController.text),
         titulo: tituloController.text,
         resumo: resumoController.text,
         dataHoraPublicacao: UtilData.obterDateTimeHora(
           dataHoraPublicacaoController.text,
         ),
-        categoria: categoriaController.text,
+        categoria: categoria,
         colaborador: GerenciadorColaborador.colaboradorLogado!,
       );
-
-      if (await GerenciadorCategoria.temCategoria(categoriaController.text) ==
-          false) {
-        await GerenciadorCategoria.adicionarCategoria(
-          Categoria(nome: categoriaController.text),
-        );
-      }
-
       await GerenciadorNoticia.adicionarNoticia(novaNoticia);
-
-      if (context.mounted) {
+      if (mounted) {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -264,7 +259,7 @@ class _CadastroNoticiasState extends State<CadastroNoticias> {
         );
       }
     } catch (e) {
-      if (context.mounted) {
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
