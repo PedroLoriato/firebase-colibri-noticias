@@ -1,8 +1,8 @@
 # <img src="assets/imagens/logo.png" alt="Logo do Colibri Notícias" width="45" style="vertical-align: middle;"> Colibri Notícias
 
-![Flutter](https://img.shields.io/badge/Flutter-3.x-blue?style=for-the-badge&logo=flutter)
-![Dart](https://img.shields.io/badge/Dart-3.x-blue?style=for-the-badge&logo=dart)
-![Firebase](https://img.shields.io/badge/Firebase-Backend-orange?style=for-the-badge&logo=firebase)
+![Flutter](https://img.shields.io/badge/Flutter-3.29.1-blue?style=for-the-badge&logo=flutter)
+![Dart](https://img.shields.io/badge/Dart-3.7.0-blue?style=for-the-badge&logo=dart)
+![Firebase](https://img.shields.io/badge/Firebase-14.9.0-orange?style=for-the-badge&logo=firebase)
 
 **Desenvolvido por:** Pedro Henrique Loriato & Katiane Maciel do Nascimento
 
@@ -46,7 +46,7 @@ Existem duas maneiras de testar o aplicativo: instalando o APK pronto ou executa
 
 A forma mais simples de testar é instalar o aplicativo diretamente no seu dispositivo Android.
 
-1.  Baixe o arquivo `colibri-noticias.apk` presente neste repositório.
+1.  Baixe o arquivo `app-release.apk` presente neste repositório.
 2.  Transfira o arquivo para o seu celular e permita a instalação de fontes desconhecidas, se solicitado.
 3.  Instale o APK e o aplicativo estará pronto para uso.
 
