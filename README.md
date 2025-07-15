@@ -6,7 +6,7 @@
 
 **Desenvolvido por:** Pedro Henrique Loriato & Katiane Maciel do Nascimento
 
-> **Observação:** Este aplicativo é um projeto acadêmico, desenvolvido como requisito para obtenção de nota na disciplina de Desenvolvimento Mobile I. Ele não possui fins comerciais e foi criado exclusivamente para demonstração de aprendizado.
+> **Observação:** Este aplicativo é um projeto acadêmico, desenvolvido como requisito para obtenção de nota na disciplina de Desenvolvimento Mobile II. Ele não possui fins comerciais e foi criado exclusivamente para demonstração de aprendizado.
 
 ## 📌 Sobre o Projeto
 
@@ -46,7 +46,7 @@ Existem duas maneiras de testar o aplicativo: instalando o APK pronto ou executa
 
 A forma mais simples de testar é instalar o aplicativo diretamente no seu dispositivo Android.
 
-1.  Baixe o arquivo `app-release.apk` presente neste repositório.
+1.  Baixe o arquivo `colibri-noticias.apk` presente neste repositório.
 2.  Transfira o arquivo para o seu celular e permita a instalação de fontes desconhecidas, se solicitado.
 3.  Instale o APK e o aplicativo estará pronto para uso.
 
@@ -56,7 +56,7 @@ Para clonar e rodar o projeto em sua máquina, siga os passos:
 
 1.  **Clone o repositório:**
     ```bash
-    git clone https://[URL_DO_SEU_REPOSITORIO].git
+    git clone https://github.com/PedroLoriato/firebase-colibri-noticias.git
     ```
 2.  **Acesse o diretório:**
     ```bash
@@ -81,7 +81,7 @@ Para testar as funcionalidades de gerenciamento de conteúdo, utilize as credenc
 | Colaborador | Email | Senha |
 | :--- | :--- | :--- |
 | Pedro Henrique Loriato | `pedro@email.com` | `senha123` |
-| Katiane M. do Nascimento | `katiane@email.com` | `senha234` |
+| Katiane Maciel do Nascimento | `katiane@email.com` | `senha234` |
 
 ## 🌐 Nota sobre CORS no Flutter Web
 
