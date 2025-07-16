@@ -43,17 +43,55 @@ A plataforma Firebase foi utilizada para fornecer toda a infraestrutura de backe
 - **Firebase Indexes:** Para otimizar as consultas no Firestore, foram configurados índices compostos. Isso permite que a aplicação realize buscas complexas de forma eficiente, como filtrar notícias por categoria e ordená-las por data, garantindo uma experiência de usuário rápida e sem gargalos.
 
 ## 🚀 Como Testar
+
 Existem duas maneiras de testar o aplicativo: instalando o APK pronto ou executando o projeto localmente.
 
 ### 1. Instalando o APK (Android)
+
 A forma mais simples de testar é instalar o aplicativo diretamente no seu dispositivo Android.
-1. Baixe o arquivo `colibri-noticias.apk` presente neste repositório.
-2. Transfira o arquivo para o seu celular e permita a instalação de fontes desconhecidas, se solicitado.
-3. Instale o APK e o aplicativo estará pronto para uso.
+
+1.  Baixe o arquivo `colibri-noticias.apk` presente neste repositório.
+2.  Transfira o arquivo para o seu celular e permita a instalação de fontes desconhecidas, se solicitado.
+3.  Instale o APK e o aplicativo estará pronto para uso.
 
 ### 2. Executando o Projeto Localmente
+
 Para clonar e rodar o projeto em sua máquina, siga os passos:
 
-1. **Clone o repositório:**
-   ```bash
-   git clone https://github.com/PedroLoriato/firebase-colibri-noticias.git
+1.  **Clone o repositório:**
+    ```bash
+    git clone https://github.com/PedroLoriato/firebase-colibri-noticias.git
+    ```
+2.  **Acesse o diretório:**
+    ```bash
+    cd colibri_noticias
+    ```
+3.  **Instale as dependências:**
+    ```bash
+    flutter pub get
+    ```
+4.  **Execute o aplicativo:**
+    ```bash
+    flutter run
+    ```
+> **Importante:** As pastas `assets` e `web` são essenciais para a identidade visual do app (logo, avatares, favicon, splash screen) e devem estar presentes no diretório local do projeto.
+
+---
+
+## 🔐 Dados de Acesso (Colaboradores)
+
+Para testar as funcionalidades de gerenciamento de conteúdo, utilize as credenciais de um dos colaboradores abaixo na tela de acesso.
+
+| Colaborador | Email | Senha |
+| :--- | :--- | :--- |
+| Pedro Henrique Loriato | `pedro@email.com` | `senha123` |
+| Katiane Maciel do Nascimento | `katiane@email.com` | `senha234` |
+
+## 🌐 Nota sobre CORS no Flutter Web
+
+Durante o desenvolvimento no **Flutter Web** em modo *debug*, o navegador impõe restrições de **Same-Origin Policy**, o que pode impedir o carregamento de imagens de outras fontes. Para contornar isso, utilizamos um proxy:
+
+`https://cors-anywhere.herokuapp.com/`
+
+Caso as imagens ainda não sejam exibidas, pode ser necessário ativar o acesso temporário na página de demonstração do proxy:
+[https://cors-anywhere.herokuapp.com/corsdemo](https://cors-anywhere.herokuapp.com/corsdemo)
