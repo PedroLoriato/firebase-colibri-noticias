@@ -74,6 +74,5 @@ Para clonar e rodar o projeto em sua máquina, siga os passos:
     ```bash
     flutter run
     ```
-> **Importante:** As pastas `assets` e `web` são essenciais para a identidade visual do app (logo, avatares, favicon, splash screen) e devem estar presentes no diretório local do projeto.
-
+> **Importante:** As pastas `android`, `assets` e `web` são essenciais para a identidade visual do app (logo, avatares, favicon, splash screen) e devem estar presentes no diretório local do projeto.
 ---
