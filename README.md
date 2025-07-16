@@ -56,4 +56,4 @@ Para clonar e rodar o projeto em sua máquina, siga os passos:
 
 1. **Clone o repositório:**
    ```bash
-   git clone [https://github.com/PedroLoriato/firebase-colibri-noticias.git](https://github.com/PedroLoriato/firebase-colibri-noticias.git)
+   git clone https://github.com/PedroLoriato/firebase-colibri-noticias.git
