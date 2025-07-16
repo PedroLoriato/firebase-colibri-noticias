@@ -1,4 +1,4 @@
-# <img src="assets/imagens/logo.png" alt="Logo do Colibri Notícias" width="50" style="vertical-align: bottom"> #Colibri Notícias
+<h1 style="display: flex; align-items: center; justify-content: center; gap: 10px;"><img src="assets/imagens/logo.png" alt="Logo do Colibri Notícias" width="50">Colibri Notícias</h1>
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.29.1-blue?style=for-the-badge&logo=flutter)
 ![Dart](https://img.shields.io/badge/Dart-3.7.0-blue?style=for-the-badge&logo=dart)
