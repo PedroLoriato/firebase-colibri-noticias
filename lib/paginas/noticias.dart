@@ -153,7 +153,7 @@ class _NoticiasState extends State<Noticias> {
                           resumo: noticia.resumo,
                           link: noticia.link,
                           dataHoraPublicacao: noticia.dataHoraPublicacao,
-                          nomeColaborador: noticia.colaborador.primeiroNome(),
+                          colaborador: noticia.colaborador,
                           dataHoraAdicao: noticia.dataHoraAdicao,
                           categoria: noticia.categoria.nome,
                           noticiasAtualizadas: _carregarNoticias,

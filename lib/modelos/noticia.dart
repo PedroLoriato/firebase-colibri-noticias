@@ -40,6 +40,8 @@ class Noticia {
       'link': link.toString(),
       'categoria': firestore.collection('categorias').doc(categoria.id),
       'dataHoraPublicacao': Timestamp.fromDate(dataHoraPublicacao),
+      'colaborador': firestore.collection('colaboradores').doc(colaborador.id),
+      'dataHoraAdicao': Timestamp.fromDate(dataHoraAdicao),
     };
   }
 

@@ -1,12 +1,10 @@
-// modelos/colaborador.dart
-
 class Colaborador {
-  final String? id; // UID do Firebase Auth, que é o ID do documento
+  final String? id; 
   final String avatar;
   final String nome;
   final String sobrenome;
   final String cpf;
-  final String email; // Essencial para o login com Firebase Auth
+  final String email; 
 
   Colaborador({
     this.id,
@@ -20,7 +18,6 @@ class Colaborador {
   String nomeCompleto() => '$nome $sobrenome';
   String primeiroNome() => nome.split(' ')[0];
 
-  // O toMap não precisa incluir o id, pois ele é o nome do documento
   Map<String, dynamic> toMap() {
     return {
       "avatar": avatar,
@@ -31,7 +28,6 @@ class Colaborador {
     };
   }
 
-  // O fromMap agora recebe o ID do documento
   factory Colaborador.fromMap(Map<String, dynamic> map, String documentId) {
     return Colaborador(
       id: documentId,

@@ -20,9 +20,9 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.myapp"
+        applicationId = "com.example.colibri_noticias"
         minSdk = 25
-        targetSdk = 33
+        targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }

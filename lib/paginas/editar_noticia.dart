@@ -265,7 +265,7 @@ class _EditarNoticiasState extends State<EditarNoticias> {
         ),
         dataHoraAdicao: widget.noticia.dataHoraAdicao,
         categoria: categoria,
-        colaborador: GerenciadorColaborador.colaboradorLogado!,
+        colaborador: widget.noticia.colaborador,
       );
       await GerenciadorNoticia.editarNoticia(noticiaEditada);
 

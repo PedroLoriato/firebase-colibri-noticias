@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:colibri_noticias/modelos/colaborador.dart';
 import 'package:colibri_noticias/paginas/editar_noticia.dart';
 import 'package:colibri_noticias/servicos/gerenciador_colaborador.dart';
 import 'package:colibri_noticias/servicos/gerenciador_noticia.dart';
@@ -15,7 +16,7 @@ class CartaoNoticia extends StatefulWidget {
   final String fonte;
   final Uri link;
   final DateTime dataHoraPublicacao;
-  final String nomeColaborador;
+  final Colaborador colaborador;
   final DateTime dataHoraAdicao;
   final String categoria;
   final VoidCallback? noticiasAtualizadas;
@@ -29,7 +30,7 @@ class CartaoNoticia extends StatefulWidget {
     required this.fonte,
     required this.link,
     required this.dataHoraPublicacao,
-    required this.nomeColaborador,
+    required this.colaborador,
     required this.dataHoraAdicao,
     required this.categoria,
     this.noticiasAtualizadas,
@@ -301,7 +302,7 @@ class _CartaoNoticiaState extends State<CartaoNoticia> {
                   children: [
                     const TextSpan(text: 'Adicionada por '),
                     TextSpan(
-                      text: widget.nomeColaborador,
+                      text: widget.colaborador.primeiroNome(),
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],

@@ -18,7 +18,6 @@ dependencies:
   gradient_borders: ^1.0.1
   shared_preferences: ^2.5.2
   font_awesome_flutter: ^10.8.0
-  http: ^1.4.0
   timezone: ^0.10.1
   firebase_core: ^3.15.1
   cloud_firestore: ^5.6.11
@@ -28,7 +27,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
-  flutter_native_splash: ^2.2.8
+  flutter_native_splash: ^2.4.6
   flutter_lints: ^5.0.0
 
 flutter_launcher_icons:
@@ -37,11 +36,20 @@ flutter_launcher_icons:
   image_path: "assets/imagens/logo.png"
 
 flutter_native_splash:
-  color: "#ffffff"
   image: assets/imagens/logo.png
+  color: "#ffffff"
+  image_dark: assets/imagens/logo.png
+  color_dark: "#000000"
   android: true
-  ios: true
   web: true
+
+  android_12:
+    image: assets/imagens/logo.png
+    color: "#ffffff"
+    image_dark: assets/imagens/logo.png
+    color_dark: "#000000"
+    
+  fullscreen: true
 
 flutter:
   uses-material-design: true

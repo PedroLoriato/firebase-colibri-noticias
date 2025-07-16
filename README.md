@@ -46,7 +46,7 @@ Existem duas maneiras de testar o aplicativo: instalando o APK pronto ou executa
 
 A forma mais simples de testar é instalar o aplicativo diretamente no seu dispositivo Android.
 
-1.  Baixe o arquivo `app-release.apk` presente neste repositório.
+1.  Baixe o arquivo `colibri-noticias.apk` presente neste repositório.
 2.  Transfira o arquivo para o seu celular e permita a instalação de fontes desconhecidas, se solicitado.
 3.  Instale o APK e o aplicativo estará pronto para uso.
 

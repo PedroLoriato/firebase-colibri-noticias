@@ -14,6 +14,7 @@ import 'package:colibri_noticias/componentes/barra_navegacao.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
