@@ -125,7 +125,7 @@ class _NoticiasState extends State<Noticias> {
                       child: Text(
                         snapshot.error.toString().contains('ERRO_SERVIDOR')
                             ? 'O servidor não está respondendo. Tente novamente mais tarde.'
-                            : 'Ocorreu um erro ao carregar as notícias.',
+                            : snapshot.error.toString().contains('ERRO_AO_FILTRAR_NOTICIAS') ? 'Ocorreu um erro ao filtrar as notícias.' : 'Ocorreu um erro ao carregar as notícias.',
                       ),
                     );
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

@@ -50,7 +50,7 @@ class GerenciadorNoticia {
 
       final snapshot = await _colecaoNoticias
           .where('categoria', isEqualTo: categoriaRef)
-          .orderBy('dataHoraAdicao', descending: true)
+          .orderBy('dataHoraPublicacao', descending: true)
           .get();
 
       return _converterSnapshotParaLista(snapshot);

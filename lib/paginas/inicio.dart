@@ -142,31 +142,31 @@ class Inicio extends StatelessWidget {
                       minimumSize: Size(
                         double.infinity,
                         50,
-                      ), // Largura 100% da tela, altura 50
+                      ), 
                       padding: EdgeInsets.symmetric(vertical: 15),
                       backgroundColor:
-                          Colors.transparent, // Cor de fundo normal
+                          Colors.transparent, 
                       side: BorderSide(
                         color: Colors.black.withValues(
                           alpha: 0.5,
-                        ), // Cor e opacidade da borda
+                        ),
                         width: 0.5,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                           12,
-                        ), // Bordas arredondadas
+                        ), 
                       ),
                       splashFactory: InkRipple.splashFactory,
                       overlayColor: Colors.black.withValues(
                         alpha: 0.2,
-                      ), // Efeito de toque
+                      ),
                     ),
                     child: Text(
                       "SOU UM LEITOR",
                       style: TextStyle(
                         fontSize: 14,
-                        fontWeight: FontWeight.w500, // Peso de fonte mais forte
+                        fontWeight: FontWeight.w500,
                         color: Colors.black,
                       ),
                     ),
@@ -186,14 +186,14 @@ class Inicio extends StatelessWidget {
                       minimumSize: Size(
                         double.infinity,
                         50,
-                      ), // Largura 100% da tela, altura 50
+                      ), 
                       padding: EdgeInsets.symmetric(vertical: 15),
                       backgroundColor:
-                          Theme.of(context).primaryColorDark, // Cor do tema
+                          Theme.of(context).primaryColorDark, 
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                           12,
-                        ), // Bordas arredondadas
+                        ),
                       ),
                       splashFactory: InkRipple.splashFactory,
                       overlayColor: const Color.fromARGB(

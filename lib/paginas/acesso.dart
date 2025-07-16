@@ -1,8 +1,3 @@
-/*
-  Arquivo: acesso.dart
-  Descrição: Refatorado para capturar a exceção correta, exibir a mensagem de erro
-             em um SnackBar e mostrar um indicador de carregamento durante o login.
-*/
 import 'package:colibri_noticias/componentes/app_bar.dart';
 import 'package:colibri_noticias/componentes/campo_formulario.dart';
 import 'package:colibri_noticias/main.dart'; // Supondo que sua TelaPrincipal esteja aqui
@@ -25,7 +20,6 @@ class _AcessoState extends State<Acesso> {
   late FocusNode emailFocus;
   late FocusNode senhaFocus;
 
-  // Variável de estado para controlar o indicador de carregamento
   bool _estaCarregando = false;
 
   @override
@@ -37,9 +31,7 @@ class _AcessoState extends State<Acesso> {
     senhaFocus = FocusNode();
   }
 
-  /// Função auxiliar para exibir mensagens de erro em um SnackBar.
   void _mostrarSnackBarDeErro(String mensagem) {
-    // Remove o prefixo "Exception: " da mensagem para uma exibição mais limpa.
     final mensagemLimpa = mensagem.replaceFirst('Exception: ', '');
     
     if (mounted) {
@@ -53,26 +45,21 @@ class _AcessoState extends State<Acesso> {
     }
   }
 
-  /// Função que processa a tentativa de login.
   Future<void> _fazerLogin() async {
-    // Valida o formulário. Se for inválido, não faz nada.
     if (!(_formKey.currentState?.validate() ?? false)) {
       return;
     }
 
-    // Ativa o indicador de carregamento e redesenha a tela.
     setState(() {
       _estaCarregando = true;
     });
 
     try {
-      // Chama o método de login do gerenciador.
       await GerenciadorColaborador.login(
         emailController.text,
         senhaController.text,
       );
 
-      // Se o login for bem-sucedido e o widget ainda estiver na tela.
       if (mounted) {
         Navigator.pushReplacement(
           context,
@@ -81,12 +68,8 @@ class _AcessoState extends State<Acesso> {
       }
 
     } on Exception catch (e) {
-      // **AQUI ESTÁ A MUDANÇA PRINCIPAL**
-      // Captura qualquer 'Exception' lançada pelo GerenciadorColaborador.
       _mostrarSnackBarDeErro(e.toString());
     } finally {
-      // Garante que o indicador de carregamento seja desativado,
-      // mesmo que ocorra um erro.
       if (mounted) {
         setState(() {
           _estaCarregando = false;
@@ -113,7 +96,6 @@ class _AcessoState extends State<Acesso> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // ... (Seu código de título e ícone permanece o mesmo) ...
                   const Text(
                     'ACESSO',
                     style: TextStyle(
@@ -156,11 +138,10 @@ class _AcessoState extends State<Acesso> {
                           isPasswordField: true,
                         ),
                         const SizedBox(height: 24),
-                        // Botão de login que agora mostra o carregamento
                         _estaCarregando
                             ? const CircularProgressIndicator()
                             : ElevatedButton(
-                                onPressed: _fazerLogin, // Chama a função de login
+                                onPressed: _fazerLogin,
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Theme.of(context).primaryColorDark,
                                   padding: const EdgeInsets.symmetric(

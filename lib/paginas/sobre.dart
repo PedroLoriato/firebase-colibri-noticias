@@ -15,7 +15,6 @@ class Sobre extends StatefulWidget {
 }
 
 class _SobreState extends State<Sobre> {
-  // Variáveis de estado para armazenar os dados carregados
   List<Colaborador> _listaColaboradores = [];
   Map<String, int> _mapaNumPublicacoes = {};
   bool _carregando = true;
@@ -26,17 +25,13 @@ class _SobreState extends State<Sobre> {
     _carregarDadosDaTela();
   }
 
-  /// Carrega todos os dados necessários para a tela de uma vez.
   Future<void> _carregarDadosDaTela() async {
     try {
-      // Carrega a lista de colaboradores
       final colaboradores =
           await GerenciadorColaborador.carregarColaboradores();
 
-      // Para cada colaborador, carrega a contagem de notícias em paralelo
       final contagensFutures =
           colaboradores.map((colaborador) {
-            // Garante que o ID não seja nulo antes de chamar o serviço
             if (colaborador.id != null) {
               return GerenciadorNoticia.contarNoticiasPorColaborador(
                 colaborador.id!,
@@ -47,13 +42,11 @@ class _SobreState extends State<Sobre> {
 
       final contagens = await Future.wait(contagensFutures);
 
-      // Cria um mapa de ID do colaborador para sua contagem de publicações
       final mapaContagens = {
         for (int i = 0; i < colaboradores.length; i++)
           colaboradores[i].id!: contagens[i],
       };
 
-      // Atualiza o estado com os dados carregados
       if (mounted) {
         setState(() {
           _listaColaboradores = colaboradores;
@@ -65,17 +58,11 @@ class _SobreState extends State<Sobre> {
       if (mounted) {
         setState(() {
           _carregando = false;
-        });
-        // Opcional: mostrar um SnackBar ou mensagem de erro para o usuário
-      }
+        });      }
     }
   }
 
-  /// Constrói a lista de botões sociais com base no nome do colaborador.
   List<BotaoSocial> _buildBotoesSociais(Colaborador colaborador) {
-    // Lógica para definir os botões com base no nome ou outro identificador
-    // NOTA: Esta abordagem com 'if/else' funciona, mas para escalar,
-    // o ideal seria ter esses links no documento do colaborador no Firestore.
     if (colaborador.nome.contains("Pedro")) {
       return [
         BotaoSocial(
@@ -124,7 +111,6 @@ class _SobreState extends State<Sobre> {
         ),
       ];
     }
-    // Retorna uma lista vazia se não houver correspondência
     return [];
   }
 
@@ -154,8 +140,6 @@ class _SobreState extends State<Sobre> {
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-
-              // Constrói a UI com base no estado de carregamento
               _carregando
                   ? const Center(child: CircularProgressIndicator())
                   : Column(
