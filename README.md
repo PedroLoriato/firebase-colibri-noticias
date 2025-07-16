@@ -77,21 +77,3 @@ Para clonar e rodar o projeto em sua máquina, siga os passos:
 > **Importante:** As pastas `assets` e `web` são essenciais para a identidade visual do app (logo, avatares, favicon, splash screen) e devem estar presentes no diretório local do projeto.
 
 ---
-
-## 🔐 Dados de Acesso (Colaboradores)
-
-Para testar as funcionalidades de gerenciamento de conteúdo, utilize as credenciais de um dos colaboradores abaixo na tela de acesso.
-
-| Colaborador | Email | Senha |
-| :--- | :--- | :--- |
-| Pedro Henrique Loriato | `pedro@email.com` | `senha123` |
-| Katiane Maciel do Nascimento | `katiane@email.com` | `senha234` |
-
-## 🌐 Nota sobre CORS no Flutter Web
-
-Durante o desenvolvimento no **Flutter Web** em modo *debug*, o navegador impõe restrições de **Same-Origin Policy**, o que pode impedir o carregamento de imagens de outras fontes. Para contornar isso, utilizamos um proxy:
-
-`https://cors-anywhere.herokuapp.com/`
-
-Caso as imagens ainda não sejam exibidas, pode ser necessário ativar o acesso temporário na página de demonstração do proxy:
-[https://cors-anywhere.herokuapp.com/corsdemo](https://cors-anywhere.herokuapp.com/corsdemo)
