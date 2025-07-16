@@ -221,6 +221,7 @@ class _CadastroNoticiasState extends State<CadastroNoticias> {
           ),
           backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(bottom: 20, left: 20, right: 20),
         ),
       );
       return;
@@ -255,6 +256,7 @@ class _CadastroNoticiasState extends State<CadastroNoticias> {
             content: Text("Notícia adicionada com sucesso!"),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(bottom: 20, left: 20, right: 20),
           ),
         );
       }
@@ -268,6 +270,7 @@ class _CadastroNoticiasState extends State<CadastroNoticias> {
             ),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(bottom: 20, left: 20, right: 20),
           ),
         );
       }

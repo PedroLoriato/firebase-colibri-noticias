@@ -198,6 +198,7 @@ class _SobreState extends State<Sobre> {
                         ),
                         backgroundColor: Colors.green,
                         behavior: SnackBarBehavior.floating,
+                        margin: EdgeInsets.only(bottom: 20, left: 20, right: 20),
                       ),
                     );
                   },

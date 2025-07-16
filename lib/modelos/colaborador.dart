@@ -5,6 +5,7 @@ class Colaborador {
   final String sobrenome;
   final String cpf;
   final String email; 
+  final String? senha;
 
   Colaborador({
     this.id,
@@ -13,6 +14,7 @@ class Colaborador {
     required this.sobrenome,
     required this.cpf,
     required this.email,
+    this.senha
   });
 
   String nomeCompleto() => '$nome $sobrenome';
@@ -25,6 +27,7 @@ class Colaborador {
       "sobrenome": sobrenome,
       "cpf": cpf,
       "email": email,
+      "senha": senha
     };
   }
 

@@ -1,6 +1,7 @@
 import 'package:colibri_noticias/componentes/app_bar.dart';
 import 'package:colibri_noticias/componentes/campo_formulario.dart';
 import 'package:colibri_noticias/main.dart'; // Supondo que sua TelaPrincipal esteja aqui
+import 'package:colibri_noticias/paginas/recuperar_senha.dart';
 import 'package:colibri_noticias/servicos/gerenciador_colaborador.dart';
 import 'package:colibri_noticias/utilitarios/validadores.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class _AcessoState extends State<Acesso> {
 
   void _mostrarSnackBarDeErro(String mensagem) {
     final mensagemLimpa = mensagem.replaceFirst('Exception: ', '');
-    
+
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -65,8 +66,15 @@ class _AcessoState extends State<Acesso> {
           context,
           MaterialPageRoute(builder: (context) => const TelaPrincipal()),
         );
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Colaborador logado com sucesso!"),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(bottom: 20, left: 20, right: 20),
+          ),
+        );
       }
-
     } on Exception catch (e) {
       _mostrarSnackBarDeErro(e.toString());
     } finally {
@@ -111,7 +119,11 @@ class _AcessoState extends State<Acesso> {
                       border: Border.all(color: Colors.grey, width: 3),
                     ),
                     padding: const EdgeInsets.all(16),
-                    child: const Icon(Icons.person, size: 50, color: Colors.grey),
+                    child: const Icon(
+                      Icons.person,
+                      size: 50,
+                      color: Colors.grey,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   Form(
@@ -123,7 +135,10 @@ class _AcessoState extends State<Acesso> {
                           focusNode: emailFocus,
                           label: "Email",
                           placeholder: "seuemail@dominio.com",
-                          prefixIcon: const Icon(Icons.email_outlined, color: Colors.grey),
+                          prefixIcon: const Icon(
+                            Icons.email_outlined,
+                            color: Colors.grey,
+                          ),
                           validator: validarEmail,
                           inputFormatters: null,
                         ),
@@ -132,7 +147,10 @@ class _AcessoState extends State<Acesso> {
                           focusNode: senhaFocus,
                           label: "Senha",
                           placeholder: "Digite sua senha",
-                          prefixIcon: const Icon(Icons.lock_outline, color: Colors.grey),
+                          prefixIcon: const Icon(
+                            Icons.lock_outline,
+                            color: Colors.grey,
+                          ),
                           validator: validarSenha,
                           inputFormatters: null,
                           isPasswordField: true,
@@ -141,25 +159,44 @@ class _AcessoState extends State<Acesso> {
                         _estaCarregando
                             ? const CircularProgressIndicator()
                             : ElevatedButton(
-                                onPressed: _fazerLogin,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(context).primaryColorDark,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 50,
-                                    vertical: 15,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
+                              onPressed: _fazerLogin,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Theme.of(context).primaryColorDark,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 50,
+                                  vertical: 15,
                                 ),
-                                child: const Text(
-                                  "Entrar",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
+                              child: const Text(
+                                "Entrar",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                        const SizedBox(height: 16),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const RecuperarSenha(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Esqueceu a senha?',
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColorDark,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

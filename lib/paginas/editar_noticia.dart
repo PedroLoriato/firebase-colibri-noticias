@@ -291,6 +291,7 @@ class _EditarNoticiasState extends State<EditarNoticias> {
         content: Text(mensagem),
         backgroundColor: cor,
         behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(bottom: 20, left: 20, right: 20),
       ),
     );
   }
