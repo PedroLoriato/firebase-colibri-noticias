@@ -18,7 +18,7 @@ class Noticias extends StatefulWidget {
 class _NoticiasState extends State<Noticias> {
   late List<Categoria> categorias = [];
 
-  String categoriaSelecionada = 'Todos';
+  String categoriaSelecionada = 'Todas';
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _NoticiasState extends State<Noticias> {
         await GerenciadorCategoria.carregarCategorias();
     if (mounted) { 
       setState(() {
-        categorias = [Categoria(nome: 'Todos'), ...categoriasCarregadas];
+        categorias = [Categoria(nome: 'Todas'), ...categoriasCarregadas];
       });
     }
   }
@@ -109,7 +109,7 @@ class _NoticiasState extends State<Noticias> {
             Expanded(
               child: FutureBuilder<List<Noticia>>(
                 future:
-                    categoriaSelecionada == 'Todos'
+                    categoriaSelecionada == 'Todas'
                         ? GerenciadorNoticia.carregarNoticias()
                         : GerenciadorNoticia.filtrarNoticiasPorCategoria(
                           categoriaSelecionada,

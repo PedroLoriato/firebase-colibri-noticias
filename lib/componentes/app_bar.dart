@@ -55,7 +55,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-      // ALTERADO: A lista de ações agora é condicional
       actions: widget.mostrarAcoes
           ? [
               Padding(
@@ -63,7 +62,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 child: GerenciadorColaborador.isLogado()
                     ? CircleAvatar(
                         radius: 20,
-                        backgroundImage: NetworkImage( // Alterado para NetworkImage para carregar da web
+                        backgroundImage: AssetImage(
                           GerenciadorColaborador.colaboradorLogado!.avatar,
                         ),
                         child: PopupMenuButton<String>(
@@ -102,7 +101,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       ),
               ),
             ]
-          : [], // Se mostrarAcoes for false, a lista de ações fica vazia
+          : [],
       title: Padding(
         padding: const EdgeInsets.only(left: 5),
         child: Text(

@@ -174,8 +174,6 @@ class _CadastroNoticiasState extends State<CadastroNoticias> {
                         },
                       ),
                       const SizedBox(height: 24),
-
-                      // Botão com loading
                       _carregando
                           ? const CircularProgressIndicator()
                           : ElevatedButton(
